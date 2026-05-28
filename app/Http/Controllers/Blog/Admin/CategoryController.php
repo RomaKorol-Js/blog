@@ -7,16 +7,23 @@ use Illuminate\Support\Str;
 // use Illuminate\Http\Request;
 use App\Http\Requests\BlogCategoryUpdateRequest;
 use App\Http\Requests\BlogCategoryCreateRequest;
+use App\Repositories\BlogCategoryRepository;
 
 class CategoryController extends BaseController
 {
+     public function __construct(private BlogCategoryRepository $blogCategoryRepository)
+    {
+        //parent::__construct();
+     
+    }
     /**
      * Display a listing of the resource.
      */
     // http://localhost/api/admin/blog/categories
     public function index()
     {
-        $paginator = BlogCategory::paginate(5);
+        // $paginator = BlogCategory::paginate(5);
+        $paginator = $this->blogCategoryRepository->getAllWithPaginate(5);
         return $paginator;
     }
 
@@ -53,13 +60,12 @@ class CategoryController extends BaseController
      */
     
     // http://localhost/api/admin/blog/categories/{id}
-public function update(BlogCategoryUpdateRequest $request, $id)
+    public function update(BlogCategoryUpdateRequest $request, $id)
     {
-        // This was Line 31! The invisible characters are gone now.
-        $item = BlogCategory::find($id);
+         $item = $this->blogCategoryRepository->getEdit($id);
+
         
         if (empty($item)) { 
-            // Changed this to a proper JSON response for APIs instead of a web redirect
             return response()->json(['error' => "Запис id=[{$id}] не знайдено"], 404);
         }
 
