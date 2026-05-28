@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Blog\Admin;
 
 use App\Models\BlogCategory;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
+use App\Http\Requests\BlogCategoryUpdateRequest;
+use App\Http\Requests\BlogCategoryCreateRequest;
 
 class CategoryController extends BaseController
 {
@@ -22,11 +24,15 @@ class CategoryController extends BaseController
      * Store a newly created resource in storage.
      */
     // http://localhost/api/admin/blog/categories
- public function store(Request $request)
+    public function store(BlogCategoryCreateRequest $request)
     {
-        $data = $request->all();
-        $item = BlogCategory::create($data);
-        
+        $data = $request->input(); 
+        if (empty($data['slug'])) {
+            $data['slug'] = Str::slug($data['title']);
+        }
+ 
+        $item = (new BlogCategory())->create($data);
+
         if ($item) {
             return ['success' => 'Успішно збережено', 'item' => $item];
         } else {
@@ -47,7 +53,7 @@ class CategoryController extends BaseController
      */
     
     // http://localhost/api/admin/blog/categories/{id}
-    public function update(Request $request, string $id)
+public function update(BlogCategoryUpdateRequest $request, $id)
     {
         // This was Line 31! The invisible characters are gone now.
         $item = BlogCategory::find($id);
