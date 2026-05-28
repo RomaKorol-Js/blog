@@ -22,3 +22,4 @@ Route::group($groupData, function () {
     ->only($methods)
     ->names('blog.admin.categories'); 
  });
+ 

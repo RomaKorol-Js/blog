@@ -28,7 +28,7 @@ class CategoryController extends BaseController
         $item = BlogCategory::create($data);
         
         if ($item) {
-            return ['success' => 'Успішно збережено'];
+            return ['success' => 'Успішно збережено', 'item' => $item];
         } else {
             return ['msg' => 'Помилка збереження'];
         }
@@ -66,7 +66,7 @@ class CategoryController extends BaseController
         $result = $item->update($data);  
 
         if ($result) {
-            return ['success' => 'Успішно збережено'];
+            return ['success' => 'Успішно збережено', 'item' => $item];
         } else {
             return ['msg' => 'Помилка збереження'];
         }
