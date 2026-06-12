@@ -58,13 +58,14 @@ class PostController extends BaseController
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
-    }
+        $item = $this->blogPostRepository->getEdit($id);
+        if (empty($item)) {
+            return ['message' => "Запис не знайдено"];
+        }
+        return $item;
+    } 
 
     /**
      * Update the specified resource in storage.
