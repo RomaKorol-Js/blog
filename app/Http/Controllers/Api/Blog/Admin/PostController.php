@@ -7,6 +7,8 @@ use App\Repositories\BlogPostRepository;
 use App\Repositories\BlogCategoryRepository;
 use App\Http\Requests\BlogPostUpdateRequest;
 
+use App\Http\Resources\Api\Blog\Admin\PostResource;
+
 use App\Jobs\BlogPostAfterCreateJob;
 use App\Jobs\BlogPostAfterDeleteJob;
 
@@ -27,14 +29,16 @@ class PostController extends BaseController
     {
         //parent::__construct();
     }
-    /**
+ /**
      * Display a listing of the resource.
      */
     public function index()
     {
-   $paginator = $this->blogPostRepository->getAllWithPaginate();
+        // Отримуємо пагіновані дані з репозиторія
+        $paginator = $this->blogPostRepository->getAllWithPaginate();
 
-        return $paginator;
+        // Обгортаємо пагінацію в API Ресурс
+        return PostResource::collection($paginator);
     }
 
     /**
@@ -64,7 +68,8 @@ class PostController extends BaseController
         if (empty($item)) {
             return ['message' => "Запис не знайдено"];
         }
-        return $item;
+        // return PostResource::collection($paginator);
+        return new PostResource($item);
     } 
 
     /**

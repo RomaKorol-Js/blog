@@ -51,4 +51,8 @@ class BlogPost extends Model
         //стаття належить користувачу
         return $this->belongsTo(User::class);
     }
-    }
+    protected $casts = [
+        'published_at' => 'datetime',
+        'is_published' => 'boolean',
+    ];
+}
