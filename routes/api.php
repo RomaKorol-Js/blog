@@ -20,7 +20,7 @@ $groupData = [
     'prefix' => 'admin/blog',
 ];
 Route::group($groupData, function () {
-    $methods = ['index','store','update'];
+    $methods = ['index','store','show','update','destroy'];
     Route::apiResource('categories', CategoryController::class)
         ->only($methods)
         ->names('blog.admin.categories');
@@ -39,7 +39,7 @@ Route::group(['prefix' => 'digging_deeper'], function () {
         ->name('digging_deeper.processVideo');
     
     Route::get('prepare-catalog', [DiggingDeeperController::class, 'prepareCatalog'])
-        ->name('digging_deeper.prepareCatalog'); //43
+        ->name('digging_deeper.prepareCatalog');
 
 });
 

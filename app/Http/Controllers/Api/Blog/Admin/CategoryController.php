@@ -57,7 +57,12 @@ class CategoryController extends BaseController
      */
     public function show(string $id)
     {
-        // dd(__METHOD__);
+        $item = BlogCategory::find($id); 
+        
+        if(empty($item)){
+            return ['message' => "Категорію не знайдено"];
+        }
+        return new CategoryResource($item);
     }
 
     /**
@@ -94,6 +99,14 @@ class CategoryController extends BaseController
      */
     public function destroy(string $id)
     {
-        // dd(__METHOD__);
-    }
+        $category = BlogCategory::find($id); 
+       
+        if ($category) {
+            return $category->delete();
+        }
+
+        if ($category) {
+            return ['success' => 'помилка видалення'];
+        }
+ }
 }
